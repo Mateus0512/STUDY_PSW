@@ -1,0 +1,42 @@
+.cards-relatorio{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 30px;
+
+}
+.relatorio{
+    background-color: #122342;
+    padding: 20px;
+    border-radius: 20px;
+    margin-bottom: 15px;
+    
+}
+.titulo{
+    border: 1px solid;
+    background-color: #0b1526;
+    display: block;
+    padding: 5px;
+    margin-bottom: 20px;
+    
+}
+
+.titulo p{
+    margin: auto;
+    text-align: center;
+    
+    
+}
+
+
+.titulo-relatorio{
+    margin-top: 30px;
+}
+
+@media(max-width:780px){
+    .cards-relatorio{
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 30px;
+    
+    }
+}

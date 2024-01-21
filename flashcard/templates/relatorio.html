@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block 'cabecalho' %}
+
+    <link href="{% static 'usuarios/css/cadastro.css' %}" rel="stylesheet">
+    <link href="{% static 'flashcard/css/novo_flashcard.css' %}" rel="stylesheet">
+    <link href="{% static 'flashcard/css/iniciar_desafio.css' %}" rel="stylesheet">
+    <link href="{% static 'flashcard/css/desafio.css' %}" rel="stylesheet">
+    <link href="{% static 'flashcard/css/relatorio.css' %}" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+{% endblock 'cabecalho' %}
+
+
+{% block 'conteudo' %}
+    {% include "partials/header.html" %}
+    <div class="container">
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-md">
+                <p class="fonte-secundaria">{{desafio.titulo}}</p>
+                {% for categoria in categorias%}
+                <span class="badge-categoria">{{categoria}}</span>
+                {% endfor %}
+                <hr>
+                <canvas id="grafico1"></canvas>
+            </div>
+            <div class="col-md">
+                <br><br><br><br>
+                
+                <div style="background-color: white;">
+
+                    <canvas id="grafico2"></canvas>
+
+                </div>
+            </div>
+        </div>
+        <hr>
+        <p class="fonte-secundaria titulo-relatorio">Melhores Matérias</p>
+        
+        <div class="cards-relatorio">
+
+            {% for melhores in tres_melhores %}
+                <div class="relatorio">
+                    <div class="titulo">
+                        <p>{{melhores.categoria}}</p>
+                    </div>
+                    <p>Acertos: {{melhores.acertos}} </p>
+                    <p>Erros: {{melhores.erros}}</p>
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+        <p class="fonte-secundaria titulo-relatorio">Piores Matérias</p>
+
+        {% for piores in tres_piores %}
+        
+        <div class="cards-relatorio">
+            <div class="relatorio">
+                <div class="titulo">
+                    <p> {{piores.categoria}} </p>
+                </div>
+                <p>Acertos: {{piores.acertos}} </p>
+                <p>Erros: {{piores.erros}} </p>
+            </div>
+            
+        </div>
+
+        {% endfor %}
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('grafico1');
+      
+        new Chart(ctx, {
+          type: 'pie',
+          data: {
+            labels: ['Acertos', 'Erros'],
+            datasets: [{
+              label: 'Qtd',
+              data: {{dados}},
+              borderWidth: 1
+            }]
+          },
+          
+        });
+    </script>
+
+<script>
+
+    const ctx2 = document.getElementById('grafico2');
+  
+    new Chart(ctx2, {
+      type: 'radar',
+      data: {
+        labels: {{name_categoria|safe}},
+        datasets: [{
+          label: 'Qtd',
+          data: {{dados2}},
+          borderWidth: 1,
+          fill: true,
+          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          borderColor: 'rgb(255, 99, 132)',
+          pointBackgroundColor: 'rgb(255, 99, 132)',
+          pointBorderColor: '#fff',
+          pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: 'rgb(255, 99, 132)'
+        }]
+      },
+      
+    });
+
+</script>
+{% endblock 'conteudo' %}
